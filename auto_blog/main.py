@@ -1,20 +1,26 @@
-# chat gpt api
-
 import openai
 
-# API 키 설정
-openai.api_key = "YOUR_API_KEY"  # 생성한 API 키를 입력
+# OpenAI API 키 설정
+openai.api_key = ""  # 생성한 API 키를 입력
 
-# API 요청
-response = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo",  # 모델 선택
-    messages=[
-        {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": "안녕하세요! ChatGPT API는 어떻게 사용하나요?"}
-    ],
-    max_tokens=100,  # 응답 길이 제한
-    temperature=0.7,  # 창의성 조절
+# 요청 메시지 구성
+messages = [
+    {"role": "system", "content": """
+    You are an expert in writing blog posts. Please follow the steps below to create a blog post:
+
+1. Create an SEO-optimized blog title that matches the keyword I provide.
+2. Write detailed and well-structured blog content.
+3. Create a horizontal image for the blog post.
+4. Provide SEO-optimized hashtags.
+    """},
+    {"role": "user", "content": "일론 머스크"}
+]
+
+# API 호출
+response = openai.chat.completions.create(
+    model="gpt-4o-mini",  # 올바른 모델 이름 사용
+    messages=messages,
 )
 
-# 결과 출력
-print(response["choices"][0]["message"]["content"])
+# 응답 출력
+print("AI의 응답:", response.choices[0].message.content)
